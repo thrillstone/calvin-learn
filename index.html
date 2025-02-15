@@ -9,20 +9,18 @@
 				font-family: "Bangers", serif;
 				font-weight: 400;
 				font-style: normal;
-				color:rgb(142, 246, 230)
-			}
-			canvas {
-				position: absolute;
+				color:rgb(142, 246, 230);
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
 			}
 
 			#container {
-				position: fixed;
-				left: 400;
-				width: 750px;
-				height: 600px;
+				width: 80vw;
+				height: 80vh;
 			}
 			.screen {
-				position: absolute;
 				display: flex;
 				flex-direction: column;
 				width: 100%;
@@ -44,9 +42,22 @@
 			.hidden {
 				display: none;
 			}
+			.scores {
+				display: flex;
+				flex-direction: row;
+				font-size: 30px;
+				height: 40px
+			}
+			.scores div {
+				padding: 0 100;
+			}
 		</style>
 	</head>
 	<body>
+		<div class="scores">
+			<div id="player1Score"></div>
+			<div id="player2Score"></div>
+		</div>
 		
 		<div id="container">
 			<!-- 1. Game -->
@@ -67,10 +78,6 @@
 				<div class="button">Calvin</div>
 				<div class="button" id="backButton">Back</div>
 			</div>
-		</div>
-		<div id="scores">
-			<h1 id="player1Score">Player 1 Score 0</h1>
-			<h1 id="player2Score">Player 2 Score 0</h1>
 		</div>
 		
 		<script>
@@ -217,8 +224,8 @@
 				ball.resetting = true;
 				playerScores[goal] = playerScores[goal] + 1;
 				
-				document.getElementById("player1Score").innerHTML = `Player 1 Score ${playerScores[0]}`;
-				document.getElementById("player2Score").innerHTML = `Player 2 Score ${playerScores[1]}`;
+				document.getElementById("player1Score").innerHTML = `${playerScores[0]}`;
+				document.getElementById("player2Score").innerHTML = `${playerScores[1]}`;
 			
 				// give some time for the player to recover before launching the ball again
 				setTimeout(() => {
@@ -313,22 +320,26 @@
 				leftPaddle.dx = 0;
 			  }
 			});
-			
+			hide(game);
 			const menu = document.querySelector('#menu');
 			const startButton = document.getElementById('startButton');
 			startButton.addEventListener("click", () => {
 				hide(menu)
 				hide(credits)
+				show(game)
 				requestAnimationFrame(loop);
+				document.getElementById("player1Score").innerHTML = `${playerScores[0]}`;
+				document.getElementById("player2Score").innerHTML = `${playerScores[1]}`;
 			});
-			const creditsButton = document.getElementById('creditsButton');
 			creditsButton.addEventListener("click", () => {
 				hide(menu)
+				hide(game)
 				show(credits)
 			});
 			const backButton = document.getElementById("backButton")
 			backButton.addEventListener("click", () => {
 				hide(credits)
+				hide(game)
 				show(menu)
 			})
 		</script>
